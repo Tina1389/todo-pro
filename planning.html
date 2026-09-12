@@ -1,0 +1,1146 @@
+```html
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>To-Do Pro</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --bg:#080b14;
+    --panel:#111625;
+    --panel2:#151b2c;
+    --input:#0c1120;
+    --text:#f5f7ff;
+    --muted:#7e89a4;
+    --border:rgba(255,255,255,.07);
+    --purple:#7b61ff;
+    --blue:#35b9ff;
+    --green:#38d39f;
+    --red:#ff6078;
+    --yellow:#ffca5c;
+}
+
+body{
+    min-height:100vh;
+    padding:25px 15px;
+
+    color:var(--text);
+
+    font-family:
+        Tahoma,
+        Arial,
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(123,97,255,.18),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 90% 90%,
+            rgba(53,185,255,.13),
+            transparent 30%
+        ),
+        var(--bg);
+}
+
+/* ---------- APP ---------- */
+
+.app{
+    width:100%;
+    max-width:850px;
+    margin:auto;
+}
+
+/* ---------- HEADER ---------- */
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:20px;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo{
+    width:48px;
+    height:48px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:16px;
+
+    font-size:22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--purple),
+            var(--blue)
+        );
+
+    box-shadow:
+        0 10px 30px
+        rgba(123,97,255,.25);
+}
+
+.brand h1{
+    font-size:20px;
+}
+
+.brand p{
+    margin-top:5px;
+    color:var(--muted);
+    font-size:10px;
+}
+
+/* ---------- STATS ---------- */
+
+.stats{
+    display:grid;
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:10px;
+
+    margin-bottom:15px;
+}
+
+.stat{
+    padding:15px;
+
+    border-radius:18px;
+
+    background:
+        rgba(17,22,37,.85);
+
+    border:1px solid var(--border);
+
+    text-align:center;
+}
+
+.stat-number{
+    font-size:23px;
+    font-weight:bold;
+}
+
+.stat-label{
+    margin-top:5px;
+    color:var(--muted);
+    font-size:9px;
+}
+
+/* ---------- MAIN ---------- */
+
+.card{
+    padding:18px;
+
+    border-radius:26px;
+
+    background:
+        rgba(17,22,37,.91);
+
+    border:1px solid var(--border);
+
+    box-shadow:
+        0 25px 70px
+        rgba(0,0,0,.30);
+}
+
+/* ---------- ADD ---------- */
+
+.add-area{
+    display:grid;
+
+    grid-template-columns:
+        1fr 125px 100px;
+
+    gap:9px;
+
+    margin-bottom:14px;
+}
+
+.input,
+.select{
+    width:100%;
+
+    height:52px;
+
+    border:none;
+    outline:none;
+
+    padding:0 15px;
+
+    border-radius:15px;
+
+    color:var(--text);
+
+    background:var(--input);
+
+    border:1px solid var(--border);
+
+    font-size:12px;
+}
+
+.input::placeholder{
+    color:#59647b;
+}
+
+.select{
+    cursor:pointer;
+}
+
+.select option{
+    background:#111625;
+}
+
+.add-btn{
+    height:52px;
+
+    border:none;
+
+    border-radius:15px;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:12px;
+    font-weight:bold;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--purple),
+            #397ff2
+        );
+
+    transition:.2s;
+}
+
+.add-btn:hover{
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 10px 25px
+        rgba(92,91,230,.25);
+}
+
+.add-btn:active{
+    transform:scale(.96);
+}
+
+/* ---------- TOOLS ---------- */
+
+.tools{
+    display:flex;
+    gap:9px;
+
+    margin-bottom:16px;
+}
+
+.search{
+    flex:1;
+
+    height:45px;
+
+    padding:0 14px;
+
+    border-radius:14px;
+
+    border:1px solid var(--border);
+
+    outline:none;
+
+    color:var(--text);
+
+    background:var(--input);
+
+    font-size:11px;
+}
+
+.search::placeholder{
+    color:#59647b;
+}
+
+.filters{
+    display:flex;
+    gap:5px;
+
+    padding:4px;
+
+    border-radius:14px;
+
+    background:var(--input);
+
+    border:1px solid var(--border);
+}
+
+.filter{
+    height:35px;
+
+    padding:0 11px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:transparent;
+
+    color:var(--muted);
+
+    cursor:pointer;
+
+    font-size:9px;
+}
+
+.filter.active{
+    color:white;
+
+    background:
+        rgba(123,97,255,.22);
+}
+
+/* ---------- TASK LIST ---------- */
+
+.task-list{
+    display:flex;
+    flex-direction:column;
+
+    gap:9px;
+
+    min-height:100px;
+}
+
+.task{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    padding:13px;
+
+    border-radius:17px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    border:1px solid var(--border);
+
+    transition:.2s;
+}
+
+.task:hover{
+    background:
+        rgba(255,255,255,.055);
+
+    transform:translateY(-1px);
+}
+
+.check{
+    width:22px;
+    height:22px;
+
+    flex:none;
+
+    border-radius:7px;
+
+    border:1.5px solid #56617a;
+
+    background:transparent;
+
+    cursor:pointer;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:white;
+
+    font-size:12px;
+}
+
+.task.completed .check{
+    border-color:var(--green);
+    background:var(--green);
+}
+
+.task-info{
+    flex:1;
+    min-width:0;
+}
+
+.task-title{
+    font-size:12px;
+
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.task.completed .task-title{
+    text-decoration:line-through;
+    color:#69748c;
+}
+
+.task-meta{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    margin-top:6px;
+
+    color:var(--muted);
+
+    font-size:8px;
+}
+
+.priority{
+    padding:3px 7px;
+
+    border-radius:20px;
+}
+
+.priority.low{
+    color:#75cfff;
+    background:rgba(53,185,255,.09);
+}
+
+.priority.medium{
+    color:var(--yellow);
+    background:rgba(255,202,92,.09);
+}
+
+.priority.high{
+    color:#ff8194;
+    background:rgba(255,96,120,.09);
+}
+
+.task-actions{
+    display:flex;
+    gap:5px;
+}
+
+.action{
+    width:32px;
+    height:32px;
+
+    border:none;
+
+    border-radius:10px;
+
+    color:var(--muted);
+
+    background:rgba(255,255,255,.045);
+
+    cursor:pointer;
+
+    font-size:12px;
+
+    transition:.15s;
+}
+
+.action:hover{
+    color:white;
+    background:rgba(255,255,255,.1);
+}
+
+.action.delete:hover{
+    color:var(--red);
+}
+
+/* ---------- EMPTY ---------- */
+
+.empty{
+    padding:45px 15px;
+
+    text-align:center;
+
+    color:var(--muted);
+
+    font-size:11px;
+}
+
+.empty-icon{
+    font-size:35px;
+    margin-bottom:10px;
+}
+
+/* ---------- FOOTER ---------- */
+
+.footer{
+    text-align:center;
+
+    color:#4f596f;
+
+    font-size:9px;
+
+    margin-top:15px;
+
+    direction:ltr;
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+@media(max-width:650px){
+
+    .add-area{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .input{
+        grid-column:span 2;
+    }
+
+    .add-btn{
+        grid-column:span 2;
+    }
+
+    .tools{
+        flex-direction:column;
+    }
+
+    .filters{
+        width:100%;
+    }
+
+    .filter{
+        flex:1;
+    }
+}
+
+@media(max-width:450px){
+
+    body{
+        padding:15px 10px;
+    }
+
+    .card{
+        padding:13px;
+        border-radius:22px;
+    }
+
+    .stats{
+        gap:7px;
+    }
+
+    .stat{
+        padding:12px 5px;
+    }
+
+    .stat-number{
+        font-size:19px;
+    }
+
+    .task{
+        padding:11px;
+    }
+
+    .task-actions{
+        flex-direction:column;
+    }
+
+    .action{
+        width:29px;
+        height:29px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="brand">
+
+            <div class="logo">
+                ✓
+            </div>
+
+            <div>
+
+                <h1>
+                    To-Do Pro
+                </h1>
+
+                <p>
+                    برنامه‌ریزی بهتر، انجام بیشتر
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <div
+                class="stat-number"
+                id="totalCount">
+                0
+            </div>
+
+            <div class="stat-label">
+                همه کارها
+            </div>
+
+        </div>
+
+        <div class="stat">
+
+            <div
+                class="stat-number"
+                id="activeCount">
+                0
+            </div>
+
+            <div class="stat-label">
+                باقی‌مانده
+            </div>
+
+        </div>
+
+        <div class="stat">
+
+            <div
+                class="stat-number"
+                id="doneCount">
+                0
+            </div>
+
+            <div class="stat-label">
+                انجام شده
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- MAIN -->
+
+    <div class="card">
+
+        <!-- ADD TASK -->
+
+        <div class="add-area">
+
+            <input
+                id="taskInput"
+                class="input"
+                type="text"
+                placeholder="مثلاً: طراحی صفحه اصلی سایت..."
+                maxlength="120"
+            >
+
+            <select
+                id="priority"
+                class="select">
+
+                <option value="low">
+                    اولویت کم
+                </option>
+
+                <option
+                    value="medium"
+                    selected>
+                    اولویت متوسط
+                </option>
+
+                <option value="high">
+                    اولویت زیاد
+                </option>
+
+            </select>
+
+            <button
+                class="add-btn"
+                onclick="addTask()">
+
+                + افزودن کار
+
+            </button>
+
+        </div>
+
+
+        <!-- TOOLS -->
+
+        <div class="tools">
+
+            <input
+                id="searchInput"
+                class="search"
+                type="text"
+                placeholder="🔍 جستجو بین کارها..."
+                oninput="render()"
+            >
+
+            <div class="filters">
+
+                <button
+                    class="filter active"
+                    data-filter="all"
+                    onclick="setFilter('all',this)">
+                    همه
+                </button>
+
+                <button
+                    class="filter"
+                    data-filter="active"
+                    onclick="setFilter('active',this)">
+                    در انتظار
+                </button>
+
+                <button
+                    class="filter"
+                    data-filter="completed"
+                    onclick="setFilter('completed',this)">
+                    انجام شده
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- TASK LIST -->
+
+        <div
+            class="task-list"
+            id="taskList">
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+        HTML • CSS • JAVASCRIPT • LOCAL STORAGE
+    </div>
+
+</div>
+
+
+<script>
+
+let tasks =
+    JSON.parse(
+        localStorage.getItem("todoProTasks")
+    ) || [];
+
+let currentFilter = "all";
+
+
+const taskInput =
+    document.getElementById("taskInput");
+
+const priorityInput =
+    document.getElementById("priority");
+
+const searchInput =
+    document.getElementById("searchInput");
+
+const taskList =
+    document.getElementById("taskList");
+
+
+/* ---------- ADD ---------- */
+
+function addTask(){
+
+    const title =
+        taskInput.value.trim();
+
+    if(!title){
+
+        taskInput.focus();
+
+        return;
+    }
+
+    const task = {
+
+        id:Date.now(),
+
+        title:title,
+
+        priority:
+            priorityInput.value,
+
+        completed:false,
+
+        createdAt:
+            new Date().toLocaleDateString("fa-IR")
+    };
+
+    tasks.unshift(task);
+
+    save();
+
+    taskInput.value = "";
+
+    priorityInput.value = "medium";
+
+    taskInput.focus();
+
+    render();
+}
+
+
+/* ---------- TOGGLE ---------- */
+
+function toggleTask(id){
+
+    tasks =
+        tasks.map(task => {
+
+            if(task.id === id){
+
+                return {
+                    ...task,
+                    completed:
+                        !task.completed
+                };
+            }
+
+            return task;
+        });
+
+    save();
+
+    render();
+}
+
+
+/* ---------- DELETE ---------- */
+
+function deleteTask(id){
+
+    tasks =
+        tasks.filter(
+            task => task.id !== id
+        );
+
+    save();
+
+    render();
+}
+
+
+/* ---------- EDIT ---------- */
+
+function editTask(id){
+
+    const task =
+        tasks.find(
+            task => task.id === id
+        );
+
+    if(!task) return;
+
+    const newTitle =
+        prompt(
+            "عنوان جدید کار:",
+            task.title
+        );
+
+    if(
+        newTitle === null ||
+        !newTitle.trim()
+    ){
+        return;
+    }
+
+    task.title =
+        newTitle.trim();
+
+    save();
+
+    render();
+}
+
+
+/* ---------- FILTER ---------- */
+
+function setFilter(
+    filter,
+    button
+){
+
+    currentFilter = filter;
+
+    document
+        .querySelectorAll(".filter")
+        .forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+    button.classList.add("active");
+
+    render();
+}
+
+
+/* ---------- RENDER ---------- */
+
+function render(){
+
+    const search =
+        searchInput.value
+            .trim()
+            .toLowerCase();
+
+    let visible =
+        tasks.filter(task => {
+
+            const matchesSearch =
+                task.title
+                    .toLowerCase()
+                    .includes(search);
+
+            let matchesFilter = true;
+
+            if(currentFilter === "active"){
+
+                matchesFilter =
+                    !task.completed;
+            }
+
+            if(currentFilter === "completed"){
+
+                matchesFilter =
+                    task.completed;
+            }
+
+            return (
+                matchesSearch &&
+                matchesFilter
+            );
+        });
+
+
+    taskList.innerHTML = "";
+
+
+    if(visible.length === 0){
+
+        taskList.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    ✨
+                </div>
+
+                ${
+                    tasks.length === 0
+                    ? "هنوز کاری اضافه نکردی"
+                    : "کاری با این مشخصات پیدا نشد"
+                }
+
+            </div>
+
+        `;
+
+    }else{
+
+        visible.forEach(task => {
+
+            const element =
+                document.createElement("div");
+
+            element.className =
+                "task" +
+                (task.completed
+                    ? " completed"
+                    : "");
+
+            const priorityText = {
+
+                low:"کم",
+
+                medium:"متوسط",
+
+                high:"زیاد"
+
+            };
+
+            element.innerHTML = `
+
+                <button
+                    class="check"
+                    onclick="toggleTask(${task.id})">
+
+                    ${
+                        task.completed
+                        ? "✓"
+                        : ""
+                    }
+
+                </button>
+
+
+                <div class="task-info">
+
+                    <div class="task-title">
+                        ${escapeHTML(task.title)}
+                    </div>
+
+                    <div class="task-meta">
+
+                        <span
+                            class="priority ${task.priority}">
+
+                            اولویت
+                            ${priorityText[task.priority]}
+
+                        </span>
+
+                        <span>
+                            ${task.createdAt}
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="task-actions">
+
+                    <button
+                        class="action"
+                        onclick="editTask(${task.id})"
+                        title="ویرایش">
+
+                        ✎
+
+                    </button>
+
+                    <button
+                        class="action delete"
+                        onclick="deleteTask(${task.id})"
+                        title="حذف">
+
+                        ×
+
+                    </button>
+
+                </div>
+
+            `;
+
+            taskList.appendChild(element);
+        });
+    }
+
+
+    updateStats();
+}
+
+
+/* ---------- STATS ---------- */
+
+function updateStats(){
+
+    const total =
+        tasks.length;
+
+    const done =
+        tasks.filter(
+            task => task.completed
+        ).length;
+
+    const active =
+        total - done;
+
+    document.getElementById(
+        "totalCount"
+    ).textContent = total;
+
+    document.getElementById(
+        "activeCount"
+    ).textContent = active;
+
+    document.getElementById(
+        "doneCount"
+    ).textContent = done;
+}
+
+
+/* ---------- SAVE ---------- */
+
+function save(){
+
+    localStorage.setItem(
+        "todoProTasks",
+        JSON.stringify(tasks)
+    );
+}
+
+
+/* ---------- HTML SECURITY ---------- */
+
+function escapeHTML(text){
+
+    return text
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+
+/* ---------- ENTER KEY ---------- */
+
+taskInput.addEventListener(
+    "keydown",
+    function(e){
+
+        if(e.key === "Enter"){
+
+            addTask();
+        }
+    }
+);
+
+
+/* ---------- START ---------- */
+
+render();
+
+</script>
+
+</body>
+</html>
+```
